@@ -11,7 +11,20 @@ const app = express();
 const distPath = path.resolve(__dirname, '../../dist');
 const hasDist = fs.existsSync(distPath);
 
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:5173',
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // allow requests with no origin (curl, Render health checks, etc.)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS blocked: ${origin}`));
+  },
+  credentials: true,
+}));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
@@ -23,7 +36,6 @@ app.get('/api/health', (_req, res) => {
 
 if (hasDist) {
   app.use(express.static(distPath));
-
   app.get(/^(?!\/api).*/, (_req, res) => {
     res.sendFile(path.join(distPath, 'index.html'));
   });
