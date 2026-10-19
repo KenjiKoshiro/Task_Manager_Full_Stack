@@ -49,9 +49,10 @@ The private MONGODB_URI was updated in Render. Render logged a successful MongoD
 connection and a live deployment; /api/health returned HTTP 200. Live API checks
 passed registration, login, create, persisted read, update, reread, and cleanup
 of the disposable test task. A synthetic test account remains because the API
-has no account-delete endpoint. These hosted checks used the existing main
-backend; deployment of this maintenance branch must still verify dueDate/tag
-persistence and browser flows against its released API.
+has no account-delete endpoint. After the maintenance merge, live checks also passed dueDate/tag create, persisted
+read, update, clear, invalid-date rejection and CORS for the production Vercel
+origin. Vercel SPA rewrites serve index.html for direct client-side routes such
+as /login and /calendar, preventing platform 404s on refresh.
 `npm audit --omit=dev` reports zero production vulnerabilities after repairs.
 Development-only advisories remain in Tailwind 3 and nodemon transitive tooling;
 no forced framework migration is included in this repair.
