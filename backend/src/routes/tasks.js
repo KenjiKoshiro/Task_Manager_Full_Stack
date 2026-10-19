@@ -3,47 +3,8 @@ const Task = require('../models/Task');
 const authMiddleware = require('../middleware/auth');
 
 const router = express.Router();
-const VALID_STATUSES = ['todo', 'in-progress', 'done'];
-const VALID_PRIORITIES = ['low', 'medium', 'high'];
-
+const { validateTaskPayload } = require('../lib/taskValidation');
 const isValidObjectId = (value) => Task.db.base.Types.ObjectId.isValid(value);
-
-const validateTaskPayload = (payload = {}, { requireTitle = false } = {}) => {
-  const errors = [];
-  const updates = {};
-
-  if (requireTitle || payload.title !== undefined) {
-    const title = String(payload.title ?? '').trim();
-
-    if (!title) {
-      errors.push('Title is required');
-    } else {
-      updates.title = title;
-    }
-  }
-
-  if (payload.description !== undefined) {
-    updates.description = payload.description == null ? '' : String(payload.description).trim();
-  }
-
-  if (payload.status !== undefined) {
-    if (!VALID_STATUSES.includes(payload.status)) {
-      errors.push('Status must be todo, in-progress, or done');
-    } else {
-      updates.status = payload.status;
-    }
-  }
-
-  if (payload.priority !== undefined) {
-    if (!VALID_PRIORITIES.includes(payload.priority)) {
-      errors.push('Priority must be low, medium, or high');
-    } else {
-      updates.priority = payload.priority;
-    }
-  }
-
-  return { errors, updates };
-};
 
 // All routes require authentication
 router.use(authMiddleware);
@@ -73,6 +34,8 @@ router.post('/', async (req, res) => {
       description: updates.description ?? '',
       status: updates.status || 'todo',
       priority: updates.priority || 'medium',
+      dueDate: updates.dueDate ?? null,
+      tag: updates.tag ?? '',
     });
 
     await task.save();
@@ -110,6 +73,8 @@ router.put('/:id', async (req, res) => {
     if (updates.status !== undefined) task.status = updates.status;
     if (updates.priority !== undefined) task.priority = updates.priority;
 
+    if (updates.dueDate !== undefined) task.dueDate = updates.dueDate;
+    if (updates.tag !== undefined) task.tag = updates.tag;
     await task.save();
     res.json(task);
   } catch (error) {

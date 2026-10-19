@@ -1,34 +1,34 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, Eye, EyeOff, ArrowRight } from 'lucide-react';
-import { useAuthStore } from '../store';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Mail, Lock, User, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { useAuthStore } from "../store";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
   const { register, isLoading, error } = useAuthStore();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [localError, setLocalError] = useState('');
+  const [localError, setLocalError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLocalError('');
+    setLocalError("");
 
     if (!name || !email || !password) {
-      setLocalError('Please fill in all fields');
+      setLocalError("Please fill in all fields");
       return;
     }
 
     if (password.length < 6) {
-      setLocalError('Password must be at least 6 characters');
+      setLocalError("Password must be at least 6 characters");
       return;
     }
 
     try {
       await register(email, password, name);
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (err) {
       setLocalError((err as Error).message);
     }
@@ -38,11 +38,11 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center relative bg-[#F6F4F1]">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-[0.03]">
-        <div 
+        <div
           className="w-full h-full"
           style={{
             backgroundImage: `radial-gradient(circle at 1px 1px, #000 1px, transparent 0)`,
-            backgroundSize: '40px 40px'
+            backgroundSize: "40px 40px",
           }}
         />
       </div>
@@ -61,12 +61,17 @@ export default function RegisterPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Name */}
             <div>
-              <label className="block text-sm font-medium text-[#1a1a1a] mb-2">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-[#1a1a1a] mb-2"
+              >
                 Full Name
               </label>
               <div className="relative">
                 <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#9ca3af]" />
                 <input
+                  id="name"
+                  autoComplete="name"
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -78,12 +83,17 @@ export default function RegisterPage() {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-[#1a1a1a] mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-[#1a1a1a] mb-2"
+              >
                 Email
               </label>
               <div className="relative">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#9ca3af]" />
                 <input
+                  id="email"
+                  autoComplete="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -95,13 +105,18 @@ export default function RegisterPage() {
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-[#1a1a1a] mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-[#1a1a1a] mb-2"
+              >
                 Password
               </label>
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#9ca3af]" />
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  autoComplete="new-password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Create a password"
@@ -109,17 +124,24 @@ export default function RegisterPage() {
                 />
                 <button
                   type="button"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-[#9ca3af] hover:text-[#1a1a1a] transition-colors"
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
             </div>
 
             {/* Error Message */}
             {(localError || error) && (
-              <p className="text-red-500 text-sm text-center">{localError || error}</p>
+              <p className="text-red-500 text-sm text-center">
+                {localError || error}
+              </p>
             )}
 
             {/* Submit Button */}
@@ -128,15 +150,18 @@ export default function RegisterPage() {
               disabled={isLoading}
               className="w-full flex items-center justify-center gap-2 py-3 bg-[#1a1a1a] text-white rounded-xl font-medium hover:bg-[#333] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? 'Creating account...' : 'Create account'}
+              {isLoading ? "Creating account..." : "Create account"}
               {!isLoading && <ArrowRight className="w-4 h-4" />}
             </button>
           </form>
 
           {/* Login Link */}
           <p className="text-center mt-6 text-sm text-[#6b6b6b]">
-            Already have an account?{' '}
-            <Link to="/login" className="text-[#1a1a1a] font-medium hover:underline">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-[#1a1a1a] font-medium hover:underline"
+            >
               Sign in
             </Link>
           </p>
