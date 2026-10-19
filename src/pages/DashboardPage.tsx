@@ -5,7 +5,7 @@ import { BarChart3, CheckCircle, Clock, TrendingUp } from 'lucide-react';
 
 export default function DashboardPage() {
   const { user } = useAuthStore();
-  const { tasks, fetchTasks, isLoading } = useTaskStore();
+  const { tasks, fetchTasks, isLoading, error } = useTaskStore();
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
@@ -36,6 +36,8 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-12">
+      {error && <p role="alert" className="task-card">{error} <button onClick={()=>void fetchTasks()}>Retry loading tasks</button></p>}
+      <p className="text-sm text-[#c2c6d6]">Task counts reflect your saved tasks. Activity charts and workspace insights are illustrative design previews.</p>
       <section>
         <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-[#e5e2e1] mb-2">
           Welcome back, {user?.name || 'User'}!

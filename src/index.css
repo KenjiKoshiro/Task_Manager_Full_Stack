@@ -32,3 +32,16 @@ textarea,
 select {
   font: inherit;
 }
+
+/* Shared task controls; semantic keyboard and touch states. */
+.task-card { background:#201f1f; border:1px solid #424754; border-radius:12px; padding:20px; min-width:0; }
+.task-field { display:flex; flex-direction:column; gap:8px; color:#c2c6d6; font-size:.875rem; }
+.task-field input,.task-field textarea,.task-field select { width:100%; min-width:0; padding:12px; border:1px solid #687082; border-radius:8px; background:#131313; color:#e5e2e1; font-size:1rem; }
+button { min-height:44px; min-width:44px; padding:8px; }
+button:disabled { cursor:not-allowed; opacity:.5; }
+button[aria-pressed="true"] { border-bottom:2px solid #adc6ff; color:#adc6ff; }
+:focus-visible { outline:2px solid #adc6ff; outline-offset:4px; }
+.task-primary { display:inline-flex; align-items:center; justify-content:center; gap:8px; border-radius:8px; padding:12px 20px; color:#002e6a; background:#adc6ff; font-weight:600; }
+.task-dialog { margin:auto; width:min(560px,calc(100% - 32px)); max-height:90dvh; overflow:auto; background:#201f1f; color:#e5e2e1; border:1px solid #687082; border-radius:16px; padding:24px; }
+.task-dialog::backdrop { background:#000b; }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }

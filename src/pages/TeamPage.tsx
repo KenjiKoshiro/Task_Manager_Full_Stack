@@ -39,6 +39,7 @@ export default function TeamPage() {
 
   return (
     <div className="space-y-8">
+      <p className="task-card" role="note">Design preview: people, activity, and team metrics below are sample content. Invitations and sharing are not connected.</p>
       <div className="flex items-start justify-between">
         <div>
           <h2 className="text-4xl font-black tracking-tight text-[#e5e2e1] mb-1">Core Infrastructure Team</h2>
@@ -48,10 +49,10 @@ export default function TeamPage() {
           </p>
         </div>
         <div className="flex gap-3">
-          <button type="button" className="flex items-center gap-2 px-4 py-2 rounded-lg border border-[#424754]/30 text-[#c2c6d6] hover:text-[#e5e2e1] hover:border-[#adc6ff]/30 text-sm font-medium transition-colors">
+          <button type="button" disabled className="flex items-center gap-2 px-4 py-2 rounded-lg border border-[#424754]/30 text-[#c2c6d6] hover:text-[#e5e2e1] hover:border-[#adc6ff]/30 text-sm font-medium transition-colors">
             Share Access
           </button>
-          <button type="button" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[#adc6ff] to-[#ddb7ff] text-[#002e6a] text-sm font-bold hover:opacity-90 transition-opacity">
+          <button type="button" disabled className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-[#adc6ff] to-[#ddb7ff] text-[#002e6a] text-sm font-bold hover:opacity-90 transition-opacity">
             <UserPlus className="w-4 h-4" /> Invite Member
           </button>
         </div>
@@ -95,11 +96,11 @@ export default function TeamPage() {
             <Users className="w-5 h-5 text-[#adc6ff]" /> Team Members
           </h3>
           <div className="flex gap-1 bg-[#1c1b1b] p-1 rounded-lg border border-[#424754]/10">
-            <button type="button" onClick={() => setView('grid')}
+            <button type="button" disabled onClick={() => setView('grid')}
               className={`p-1.5 rounded transition-colors ${view === 'grid' ? 'bg-[#2a2a2a] text-[#adc6ff]' : 'text-[#c2c6d6] hover:text-[#e5e2e1]'}`}>
               <Grid className="w-4 h-4" />
             </button>
-            <button type="button" onClick={() => setView('list')}
+            <button type="button" disabled onClick={() => setView('list')}
               className={`p-1.5 rounded transition-colors ${view === 'list' ? 'bg-[#2a2a2a] text-[#adc6ff]' : 'text-[#c2c6d6] hover:text-[#e5e2e1]'}`}>
               <List className="w-4 h-4" />
             </button>
@@ -130,7 +131,7 @@ export default function TeamPage() {
                       </span>
                     ))}
                   </div>
-                  <button type="button" className="text-xs font-medium text-[#adc6ff] hover:underline">View Profile</button>
+                  <button type="button" disabled className="text-xs font-medium text-[#adc6ff] hover:underline">View Profile</button>
                 </div>
               </div>
             </div>
